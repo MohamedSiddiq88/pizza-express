@@ -16,7 +16,7 @@ router.get("/all", async (req, res) => {
       res.status(400).send("Menu not found");
       return;
     }
-    res.status(200).json({ data: menu });
+    res.status(200).json(menu);
   } catch (error) {
     res.status(500).json("Internal server error");
   }
