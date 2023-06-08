@@ -1,0 +1,28 @@
+import { ObjectId } from "bson";
+import { client } from "../db.js";
+
+export function getAllMenu() {
+  return client.db("restaurant").collection("menu").find().toArray();
+}
+
+export function getMenuById(id) {
+  return client
+    .db("restaurant")
+    .collection("menu")
+    .findOne({ _id: new ObjectId(id) });
+}
+
+export function addMenu(menuItem) {
+  return client.db("restaurant").collection("menu").insertOne(menuItem);
+}
+
+export function updateMenu(id, updatedMenuItem) {
+  return client
+    .db("restaurant")
+    .collection("menu")
+    .findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updatedMenuItem });
+}
+
+export function deleteAllMenu() {
+  return client.db("restaurant").collection("menu").deleteMany({});
+}
