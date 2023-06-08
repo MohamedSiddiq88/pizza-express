@@ -47,7 +47,7 @@ router.post("/add", async (req, res) => {
       data: { result: result, message: "New menu item added successfully" },
     });
   } catch (error) {
-    res.status(500).send({ data: "Internal server error" });
+    res.status(500).send({ data: error });
   }
 });
 
