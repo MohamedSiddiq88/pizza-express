@@ -5,7 +5,8 @@ export async function getCustomizationOptions() {
   return client
       .db("restaurant")
       .collection("PizzaCustomizationOptions")
-      .find({});
+      .find()
+      .toArray();
       
 }
 
