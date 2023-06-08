@@ -13,7 +13,7 @@ export function getMenuById(id) {
 }
 
 export function addMenu(menuItem) {
-  return client.db("restaurant").collection("menu").insertOne(menuItem);
+  return client.db("restaurant").collection("menu").insertMany(menuItem);
 }
 
 export function updateMenu(id, updatedMenuItem) {
