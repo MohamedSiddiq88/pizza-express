@@ -25,7 +25,7 @@ app.use(express.json());
 app.use("/mentors",isAuthenticated,mentorsRouter);
 app.use("/students",isAuthenticated,studentsRouter);
 app.use("/",welcomeRouter);
-app.use("/",menuRouter);
+app.use("/menu",menuRouter);
 app.use("/users",usersRouter)
 
 //listen to a server
