@@ -23,7 +23,7 @@ app.use(express.json());
 
 //students routers
 app.use("/mentors",isAuthenticated,mentorsRouter);
-app.use("/students",isAuthenticated,studentsRouter);
+app.use("/students",studentsRouter);
 app.use("/",welcomeRouter);
 app.use("/menu",menuRouter);
 app.use("/users",usersRouter)
