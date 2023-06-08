@@ -3,7 +3,7 @@ import { client } from "../db.js";
 
 export async function getCustomizationOptions() {
   return client
-      .db("pizza-app")
+      .db("restaurant")
       .collection("PizzaCustomizationOptions")
       .find()
       .toArray();
