@@ -6,7 +6,7 @@ export async function getCustomizationOptions() {
       .db("restaurant")
       .collection("PizzaCustomizationOptions")
       .find()
-      .toArray();
+      
 }
 
 export function getAllMenu() {
