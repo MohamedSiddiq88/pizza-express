@@ -5,9 +5,24 @@ import {
   deleteAllMenu,
   getMenuById,
   updateMenu,
+  getCustomizationOptions
 } from "../Controllers/menu.js";
 
 const router = express.Router();
+
+router.get("/customise", async (req, res) => {
+  try {
+    const customizationOptions = await getCustomizationOptions();
+    if (!customizationOptions) {
+      res.status(400).send("Customization options not found");
+      return;
+    }
+    res.status(200).json(customizationOptions);
+  } catch (error) {
+    res.status(500).json("Internal server error");
+  }
+});
+
 
 router.get("/all", async (req, res) => {
   try {

@@ -1,6 +1,13 @@
 import { ObjectId } from "bson";
 import { client } from "../db.js";
 
+export async function getCustomizationOptions() {
+  return client
+      .db("pizza-app")
+      .collection("PizzaCustomizationOptions")
+      .findOne();
+}
+
 export function getAllMenu() {
   return client.db("restaurant").collection("menu").find().toArray();
 }
