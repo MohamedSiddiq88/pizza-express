@@ -5,7 +5,8 @@ export async function getCustomizationOptions() {
   return client
       .db("pizza-app")
       .collection("PizzaCustomizationOptions")
-      .findOne();
+      .find()
+      .toArray();
 }
 
 export function getAllMenu() {
