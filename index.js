@@ -27,6 +27,7 @@ app.use("/students",studentsRouter);
 app.use("/",welcomeRouter);
 app.use("/menu",menuRouter);
 app.use("/users",usersRouter)
+console.log("");
 
 //listen to a server
 app.listen(PORT,()=>console.log( `server started in localhost:9090`));
