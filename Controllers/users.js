@@ -3,14 +3,14 @@ import  jwt  from "jsonwebtoken";
 
 export function  addUsers(userInfo){
     return client
-    .db("student-and-mentors")
+    .db("restaurant")
     .collection("users")
     .insertOne(userInfo)
 }
 
 export function  getUser(userEmail){
     return client
-    .db("student-and-mentors")
+    .db("restaurant")
     .collection("users")
     .findOne({email:userEmail})
 }
