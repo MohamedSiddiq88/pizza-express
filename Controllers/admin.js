@@ -4,14 +4,14 @@ import  jwt  from "jsonwebtoken";
 export function  addAdmin(userInfo){
     return client
     .db("restaurant")
-    .collection("users")
+    .collection("admin")
     .insertOne(userInfo)
 }
 
 export function  getAdmin(userEmail){
     return client
     .db("restaurant")
-    .collection("users")
+    .collection("admin")
     .findOne({email:userEmail})
 }
 
