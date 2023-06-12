@@ -8,6 +8,7 @@ import { isAuthenticated } from "./Authentication/auth.js";
 import cors from "cors";
 import { menuRouter } from "./Routers/menu.js";
 import { adminRouter } from "./Routers/admin.js";
+import { ordersRouter } from "./Routers/orders.js";
 
 
 
@@ -29,6 +30,8 @@ app.use("/",welcomeRouter);
 app.use("/menu",menuRouter);
 app.use("/users",usersRouter)
 app.use("/admin",adminRouter)
+app.use("/orders",ordersRouter)
+
 
 
 
