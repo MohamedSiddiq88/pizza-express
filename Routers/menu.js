@@ -5,7 +5,8 @@ import {
   deleteAllMenu,
   getMenuById,
   updateMenu,
-  getCustomizationOptions
+  getCustomizationOptions,
+  updateCustomizationOptions
 } from "../Controllers/menu.js";
 
 const router = express.Router();
@@ -22,6 +23,25 @@ router.get("/customise", async (req, res) => {
     res.status(500).json("Internal server error");
   }
 });
+
+router.put("/customise/update", async (req, res) => {
+  try {
+    const updatedOptions = req.body;
+    if (!updatedOptions) {
+      return res.status(400).send({ data: "No updated options provided" });
+    }
+
+    // Call a function to update the customization options with the provided data
+    const result = await updateCustomizationOptions(updatedOptions);
+
+    res.status(200).json({
+      data: { result: result, message: "Customization options updated successfully" },
+    });
+  } catch (error) {
+    res.status(500).json({ data: "Internal server error" });
+  }
+});
+
 
 
 router.get("/all", async (req, res) => {
