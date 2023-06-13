@@ -38,7 +38,7 @@ router.post("/login",async(req,res)=>{
             return res.status(400).json({data:"invalid password"})
         }
         const token =generateJwtToken(user._id)
-        res.status(200).json({data:token})
+        res.status(200).json({data:token,name:user.name})
 
     } catch (error) {
         res.status(500).json("internal server error");   
