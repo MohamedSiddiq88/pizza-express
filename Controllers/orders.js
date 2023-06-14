@@ -30,10 +30,10 @@ export function updateOrder(id, updatedData) {
     .findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updatedData }, { returnOriginal: false });
 }
 
-export async function deleteOrder(id) {
-  const result = await client
+export  function deleteOrder(id) {
+  return client
     .db("restaurant")
     .collection("order")
     .findOneAndDelete({ _id: new ObjectId(id) }, { projection: { _id: 0 } });
-  return result.value;
+  
 }
