@@ -16,12 +16,12 @@ export function getOrderById(id) {
     .findOne({ _id: new ObjectId(id) });
 }
 
-export function createOrder(orderData) {
-  return client
+export async function createOrder(orderData) {
+  const result = await client
     .db("restaurant")
     .collection("order")
-    .insertOne(orderData)
-    .then(result => result.ops[0]);
+    .insertOne(orderData);
+  return result.ops[0];
 }
 
 export function updateOrder(id, updatedData) {
@@ -31,10 +31,10 @@ export function updateOrder(id, updatedData) {
     .findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updatedData }, { returnOriginal: false });
 }
 
-export function deleteOrder(id) {
-  return client
+export async function deleteOrder(id) {
+  const result = await client
     .db("restaurant")
     .collection("order")
-    .findOneAndDelete({ _id: new ObjectId(id) }, { projection: { _id: 0 } })
-    .then(result => result.value);
+    .findOneAndDelete({ _id: new ObjectId(id) }, { projection: { _id: 0 } });
+  return result.value;
 }
