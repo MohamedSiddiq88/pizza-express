@@ -16,12 +16,11 @@ export function getOrderById(id) {
     .findOne({ _id: new ObjectId(id) });
 }
 
-export async function createOrder(orderData) {
-  const result = await client
+export  function createOrder(orderData) {
+  return client
     .db("restaurant")
     .collection("order")
     .insertOne(orderData);
-  return result.ops[0];
 }
 
 export function updateOrder(id, updatedData) {
