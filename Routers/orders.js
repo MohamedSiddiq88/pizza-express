@@ -36,7 +36,7 @@ router.post("/create", async (req, res) => {
     const createdOrder = await createOrder(newOrder);
     res.status(201).json({ data: createdOrder, message: "Order created successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: error });
   }
 });
 
