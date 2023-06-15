@@ -28,44 +28,20 @@ router.put("/update/:type/:name", async (req, res) => {
   try {
     const { type, name } = req.params;
     const { quantity } = req.body;
-    if (!type || !name || !quantity) {
-      return res.status(400).send({ data: "Incomplete data provided" });
-    }
-
-    let menu;
-    switch (type) {
-      case "pizzaBase":
-        menu = pizzaBase;
-        break;
-      case "sauce":
-        menu = sauce;
-        break;
-      case "cheese":
-        menu = cheese;
-        break;
-      case "veggies":
-        menu = veggies;
-        break;
-      case "meat":
-        menu = meat;
-        break;
-      default:
-        return res.status(400).send({ data: "Invalid menu type" });
-    }
-
-    const menuItem = menu.find((item) => item.name === name);
+    
+    // Find the menu item to update
+    const menuItem = menu[type].find(item => item.name === name);
     if (!menuItem) {
-      return res.status(400).send({ data: "Menu item not found" });
+      res.status(400).send("Menu item not found");
+      return;
     }
 
+    // Update the quantity
     menuItem.quantity = quantity;
 
-    const customizationOptions = await getCustomizationOptions();
-    if (!customizationOptions) {
-      return res.status(400).send("Customization options not found");
-    }
+    // Save the updated menu item
+    const result = await updateCustomizationOptions(menu);
 
-    const result = await updateCustomizationOptions(customizationOptions);
     res.status(200).json({
       data: { result: result, message: "Menu item updated successfully" },
     });
@@ -73,6 +49,57 @@ router.put("/update/:type/:name", async (req, res) => {
     res.status(500).json({ data: "Internal server error" });
   }
 });
+
+
+// router.put("/update/:type/:name", async (req, res) => {
+//   try {
+//     const { type, name } = req.params;
+//     const { quantity } = req.body;
+//     if (!type || !name || !quantity) {
+//       return res.status(400).send({ data: "Incomplete data provided" });
+//     }
+
+//     let menu;
+//     switch (type) {
+//       case "pizzaBase":
+//         menu = pizzaBase;
+//         break;
+//       case "sauce":
+//         menu = sauce;
+//         break;
+//       case "cheese":
+//         menu = cheese;
+//         break;
+//       case "veggies":
+//         menu = veggies;
+//         break;
+//       case "meat":
+//         menu = meat;
+//         break;
+//       default:
+//         return res.status(400).send({ data: "Invalid menu type" });
+//     }
+
+//     const menuItem = menu.find((item) => item.name === name);
+//     if (!menuItem) {
+//       return res.status(400).send({ data: "Menu item not found" });
+//     }
+
+//     menuItem.quantity = quantity;
+
+//     const customizationOptions = await getCustomizationOptions();
+//     if (!customizationOptions) {
+//       return res.status(400).send("Customization options not found");
+//     }
+
+//     const result = await updateCustomizationOptions(customizationOptions);
+//     res.status(200).json({
+//       data: { result: result, message: "Menu item updated successfully" },
+//     });
+//   } catch (error) {
+//     res.status(500).json({ data: "Internal server error" });
+//   }
+// });
 
 
 
