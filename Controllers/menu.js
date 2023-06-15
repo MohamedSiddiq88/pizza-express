@@ -10,79 +10,6 @@ export async function getCustomizationOptions() {
       
 }
 
-export async function updateCustomizationOptionByName(name, updatedCustomizationOption) {
-  const options = await client
-    .db("restaurant")
-    .collection("PizzaCustomizationOptions")
-    .find()
-    .toArray();
-
-  for (const option of options) {
-    if (option.pizzaBase) {
-      for (let i = 0; i < option.pizzaBase.length; i++) {
-        if (option.pizzaBase[i].name === name) {
-          option.pizzaBase[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-    if (option.sauce) {
-      for (let i = 0; i < option.sauce.length; i++) {
-        if (option.sauce[i].name === name) {
-          option.sauce[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-    if (option.cheese) {
-      for (let i = 0; i < option.cheese.length; i++) {
-        if (option.cheese[i].name === name) {
-          option.cheese[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-    if (option.veggies) {
-      for (let i = 0; i < option.veggies.length; i++) {
-        if (option.veggies[i].name === name) {
-          option.veggies[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-    if (option.meat) {
-      for (let i = 0; i < option.meat.length; i++) {
-        if (option.meat[i].name === name) {
-          option.meat[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-  }
-}
-
-
-
 export async function getCustomizationOptionByName(name) {
   const options = await client
     .db("restaurant")
@@ -132,15 +59,15 @@ export async function getCustomizationOptionByName(name) {
 }
 
 
-// export function updateCustomizationOptionByName(name, updatedCustomizationOption) {
-//   return client
-//     .db("restaurant")
-//     .collection("PizzaCustomizationOptions")
-//     .findOneAndUpdate(
-//       { name: name },
-//       { $set: updatedCustomizationOption }
-//     );
-// }
+export function updateCustomizationOptionByName(name, updatedCustomizationOption) {
+  return client
+    .db("restaurant")
+    .collection("PizzaCustomizationOptions")
+    .findOneAndUpdate(
+      { name: name },
+      { $set: updatedCustomizationOption }
+    );
+}
 
 
 // export function updateMenuByPizzaBaseName(name, updatedQuantity) {
