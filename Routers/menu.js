@@ -29,7 +29,7 @@ router.get("/customise", async (req, res) => {
 
 router.put("/customise/update", async (req, res) => {
   try {
-    const { name, quantity } = req.query;
+    const { name, quantity } = req.body;
     if (!name || !quantity) {
       return res.status(400).send({ data: "Incomplete data provided" });
     }
