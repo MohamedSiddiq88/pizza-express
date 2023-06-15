@@ -14,8 +14,16 @@ export function updateCustomizationOptions(customizationOptions) {
   return client
     .db("restaurant")
     .collection("PizzaCustomizationOptions")
-    .findOneAndUpdate({}, { $set: customizationOptions });
+    .findOneAndUpdate({}, { $set: customizationOptions }, { returnOriginal: false });
 }
+
+
+// export function updateCustomizationOptions(customizationOptions) {
+//   return client
+//     .db("restaurant")
+//     .collection("PizzaCustomizationOptions")
+//     .findOneAndUpdate({}, { $set: customizationOptions });
+// }
 
 
 
