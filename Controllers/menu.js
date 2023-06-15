@@ -5,14 +5,12 @@ import { client } from "../db.js";
 export function updateMenu(name, updatedMenuItem) {
   return client
     .db("restaurant")
-    .collection("menu")
-    .findOneAndUpdate(
-      { "pizzaBase.name": name }, // Filter condition to find the menu item with the matching name
-      { $set: { "pizzaBase.$.quantity": updatedMenuItem.quantity } }, // Update the quantity of the matching pizza base
-      { returnOriginal: false } // Return the updated document
+    .collection("PizzaCustomizationOptions")
+    .updateOne(
+      { "pizzaBase.name": name }, // Find the menu item with the matching name
+      { $set: { "pizzaBase.$.quantity": updatedMenuItem.quantity } } // Update the quantity of the matching pizza base
     );
 }
-
 
 
 
