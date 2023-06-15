@@ -7,6 +7,7 @@ import {
   updateMenu,
   getCustomizationOptions,
   getCustomizationOptionByName,
+  updateCustomizationOptionByName,
   
 } from "../Controllers/menu.js";
 
@@ -28,9 +29,9 @@ router.get("/customise", async (req, res) => {
 router.get("/customise/name", async (req, res) => {
   try {
     const { name } = req.body;
-    const customizationOption = await getCustomizationOptionByName("Thin Crust");
+    const customizationOption = await getCustomizationOptionByName(name);
     if (!customizationOption) {
-      res.status(400).send("Customization option not found");
+      res.status(400).send("Customization option not foundd");
       return;
     }
     res.status(200).json(customizationOption);
@@ -40,24 +41,24 @@ router.get("/customise/name", async (req, res) => {
 });
 
 
-// router.put("/customise/update", async (req, res) => {
-//   try {
-//     const { name, quantity } = req.body;
-//     if (!name || !quantity) {
-//       return res.status(400).send({ data: "Incomplete data provided" });
-//     }
-//     const result = await updateCustomizationOptionByName(name, {quantity:quantity});
-//     if (!result.value) {
-//       res.status(404).send("Menu item not found");
-//       return;
-//     }
-//     res.status(200).json({
-//       data: { result: result, message: "Menu item updated successfully" },
-//     });
-//   } catch (error) {
-//     res.status(500).json({ data: "Internal server error" });
-//   }
-// });
+router.put("/customise/update", async (req, res) => {
+  try {
+    const { name, quantity } = req.body;
+    if (!name || !quantity) {
+      return res.status(400).send({ data: "Incomplete data provided" });
+    }
+    const result = await updateCustomizationOptionByName(name, quantity);
+    if (!result.value) {
+      res.status(404).send("Menu item not found");
+      return;
+    }
+    res.status(200).json({
+      data: { result: result, message: "Menu item updated successfully" },
+    });
+  } catch (error) {
+    res.status(500).json({ data: "Internal server error" });
+  }
+});
 
 
 
