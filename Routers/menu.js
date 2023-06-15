@@ -29,7 +29,7 @@ router.get("/customise", async (req, res) => {
 router.get("/customise/name", async (req, res) => {
   try {
     const { name } = req.body;
-    const customizationOption = await getCustomizationOptionByName("Thin Crust");
+    const customizationOption = await getCustomizationOptionByName(name);
     if (!customizationOption) {
       res.status(400).send("Customization option not found");
       return;
