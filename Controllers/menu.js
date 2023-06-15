@@ -11,15 +11,26 @@ export async function getCustomizationOptions() {
 }
 
 
-export function updateMenuByPizzaBaseName(name, updatedQuantity) {
+export function updateMenu(menuItem) {
+  const { _id, quantity } = menuItem;
   return client
     .db("restaurant")
     .collection("menu")
     .findOneAndUpdate(
-      { "pizzaBase.name": name },
-      { $set: { "pizzaBase.$.quantity": updatedQuantity } }
+      { _id: new ObjectId(_id), "pizzaBase.name": "Thin Crust" },
+      { $set: { "pizzaBase.$.quantity": quantity } }
     );
 }
+
+// export function updateMenuByPizzaBaseName(name, updatedQuantity) {
+//   return client
+//     .db("restaurant")
+//     .collection("menu")
+//     .findOneAndUpdate(
+//       { "pizzaBase.name": name },
+//       { $set: { "pizzaBase.$.quantity": updatedQuantity } }
+//     );
+// }
 
 
 // export function updateCustomizationOptions(updatedOptions) {

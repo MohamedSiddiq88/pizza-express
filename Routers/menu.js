@@ -25,7 +25,7 @@ router.get("/customise", async (req, res) => {
   }
 });
 
-// ...
+
 
 router.put("/customise/update", async (req, res) => {
   try {
@@ -46,7 +46,7 @@ router.put("/customise/update", async (req, res) => {
   }
 });
 
-// ...
+
 
 
 // router.put("/update/:type/:name", async (req, res) => {
