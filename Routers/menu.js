@@ -13,6 +13,22 @@ import {
 
 const router = express.Router();
 
+router.put("/update", async (req, res) => {
+  try {
+    const { name, quantity } = req.body;
+    if (!name || !quantity) {
+      return res.status(400).send({ data: "Incomplete data provided" });
+    }
+    const result = await updateMenu(name, quantity);
+    res.status(200).json({
+      data: { result: result, message: "Menu item updated successfully" },
+    });
+  } catch (error) {
+    res.status(500).json({ data: "Internal server error" });
+  }
+});
+
+
 router.get("/customise", async (req, res) => {
   try {
     const customizationOptions = await getCustomizationOptions();

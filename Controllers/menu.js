@@ -1,6 +1,15 @@
 import { ObjectId } from "bson";
 import { client } from "../db.js";
 
+
+export function updateMenu(name, updatedMenuItem) {
+  return client
+    .db("restaurant")
+    .collection("PizzaCustomizationOptions")
+    .findOneAndUpdate({ "pizzaBase.name": name }, { $set: updatedMenuItem });
+}
+
+
 export async function getCustomizationOptions() {
   return client
       .db("restaurant")
@@ -273,12 +282,12 @@ export function addMenu(menuItem) {
   return client.db("restaurant").collection("menu").insertMany(menuItem);
 }
 
-export function updateMenu(id, updatedMenuItem) {
-  return client
-    .db("restaurant")
-    .collection("menu")
-    .findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updatedMenuItem });
-}
+// export function updateMenu(id, updatedMenuItem) {
+//   return client
+//     .db("restaurant")
+//     .collection("menu")
+//     .findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updatedMenuItem });
+// }
 
 export function deleteAllMenu() {
   return client.db("restaurant").collection("menu").deleteMany({});
