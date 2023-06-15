@@ -24,31 +24,66 @@ router.get("/customise", async (req, res) => {
   }
 });
 
-router.put("/update/:type/:name", async (req, res) => {
+router.put("/customise/update/:name", async (req, res) => {
   try {
-    const { type, name } = req.params;
-    const { quantity } = req.body;
-    
-    // Find the menu item to update
-    const menuItem = menu[type].find(item => item.name === name);
-    if (!menuItem) {
-      res.status(400).send("Menu item not found");
-      return;
+    const { name } = req.params;
+    const updatedQuantity = req.body.quantity;
+    if (!name || !updatedQuantity) {
+      return res.status(400).send({ data: "Incomplete data provided" });
     }
 
-    // Update the quantity
-    menuItem.quantity = quantity;
+    const customizationOptions = await getCustomizationOptions();
+    if (!customizationOptions) {
+      return res.status(400).send("Customization options not found");
+    }
 
-    // Save the updated menu item
-    const result = await updateCustomizationOptions(menu);
+    const pizzaBase = customizationOptions.pizzaBase.find(
+      (base) => base.name === name
+    );
+    if (!pizzaBase) {
+      return res.status(400).send("Pizza base not found");
+    }
 
+    pizzaBase.quantity = updatedQuantity;
+
+    const result = await updateCustomizationOptions(customizationOptions);
     res.status(200).json({
-      data: { result: result, message: "Menu item updated successfully" },
+      data: {
+        result: result,
+        message: "Pizza base quantity updated successfully",
+      },
     });
   } catch (error) {
     res.status(500).json({ data: "Internal server error" });
   }
 });
+
+
+// router.put("/update/:type/:name", async (req, res) => {
+//   try {
+//     const { type, name } = req.params;
+//     const { quantity } = req.body;
+    
+//     // Find the menu item to update
+//     const menuItem = menu[type].find(item => item.name === name);
+//     if (!menuItem) {
+//       res.status(400).send("Menu item not found");
+//       return;
+//     }
+
+//     // Update the quantity
+//     menuItem.quantity = quantity;
+
+//     // Save the updated menu item
+//     const result = await updateCustomizationOptions(menu);
+
+//     res.status(200).json({
+//       data: { result: result, message: "Menu item updated successfully" },
+//     });
+//   } catch (error) {
+//     res.status(500).json({ data: "Internal server error" });
+//   }
+// });
 
 
 // router.put("/update/:type/:name", async (req, res) => {
