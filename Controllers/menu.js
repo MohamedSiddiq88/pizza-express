@@ -10,12 +10,21 @@ export async function getCustomizationOptions() {
       
 }
 
-export function updateCustomizationOptions(customizationOptions) {
+export function updateCustomizationOptions(updatedOptions) {
   return client
     .db("restaurant")
     .collection("PizzaCustomizationOptions")
-    .findOneAndUpdate({}, { $set: customizationOptions }, { returnOriginal: false });
+    .updateMany({}, { $set: updatedOptions });
 }
+
+
+
+// export function updateCustomizationOptions(customizationOptions) {
+//   return client
+//     .db("restaurant")
+//     .collection("PizzaCustomizationOptions")
+//     .findOneAndUpdate({}, { $set: customizationOptions }, { returnOriginal: false });
+// }
 
 
 // export function updateCustomizationOptions(customizationOptions) {

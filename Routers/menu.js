@@ -24,6 +24,68 @@ router.get("/customise", async (req, res) => {
   }
 });
 
+
+
+router.put("/update/:type/:name", async (req, res) => {
+  try {
+    const { type, name } = req.params;
+    const updatedItem = req.body;
+    if (!type || !name || !updatedItem) {
+      return res.status(400).send({ data: "Incomplete data provided" });
+    }
+
+    let menuCategory = null;
+
+    switch (type) {
+      case "pizzaBase":
+        menuCategory = pizzaBase;
+        break;
+      case "sauce":
+        menuCategory = sauce;
+        break;
+      case "cheese":
+        menuCategory = cheese;
+        break;
+      case "veggies":
+        menuCategory = veggies;
+        break;
+      case "meat":
+        menuCategory = meat;
+        break;
+      default:
+        return res.status(400).send({ data: "Invalid menu category" });
+    }
+
+    const itemIndex = menuCategory.findIndex(
+      (item) => item.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (itemIndex === -1) {
+      return res.status(404).send({ data: "Menu item not found" });
+    }
+
+    menuCategory[itemIndex] = {
+      ...menuCategory[itemIndex],
+      ...updatedItem,
+    };
+
+    // Save the updated menu to the database or perform any other necessary actions
+
+    res.status(200).json({
+      data: {
+        message: "Menu item updated successfully",
+        updatedItem: menuCategory[itemIndex],
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ data: "Internal server error" });
+  }
+});
+
+
+
+
+
 // router.put("/customise/update/:type", async (req, res) => {
 //   try {
 //     const { type } = req.params;
@@ -102,39 +164,39 @@ router.get("/customise", async (req, res) => {
 // });
 
 
-router.put("/customise/update/:name", async (req, res) => {
-  try {
-    const { name } = req.params;
-    const updatedQuantity = req.body.quantity;
-    if (!name || !updatedQuantity) {
-      return res.status(400).send({ data: "Incomplete data provided" });
-    }
+// router.put("/customise/update/:name", async (req, res) => {
+//   try {
+//     const { name } = req.params;
+//     const updatedQuantity = req.body.quantity;
+//     if (!name || !updatedQuantity) {
+//       return res.status(400).send({ data: "Incomplete data provided" });
+//     }
 
-    const customizationOptions = await getCustomizationOptions();
-    if (!customizationOptions) {
-      return res.status(400).send("Customization options not found");
-    }
+//     const customizationOptions = await getCustomizationOptions();
+//     if (!customizationOptions) {
+//       return res.status(400).send("Customization options not found");
+//     }
 
-    const pizzaBase = customizationOptions.pizzaBase.find(
-      (base) => base.name === name
-    );
-    if (!pizzaBase) {
-      return res.status(400).send("Pizza base not found");
-    }
+//     const pizzaBase = customizationOptions.pizzaBase.find(
+//       (base) => base.name === name
+//     );
+//     if (!pizzaBase) {
+//       return res.status(400).send("Pizza base not found");
+//     }
 
-    pizzaBase.quantity = updatedQuantity;
+//     pizzaBase.quantity = updatedQuantity;
 
-    const result = await updateCustomizationOptions(customizationOptions);
-    res.status(200).json({
-      data: {
-        result: result,
-        message: "Pizza base quantity updated successfully",
-      },
-    });
-  } catch (error) {
-    res.status(500).json({ data: error });
-  }
-});
+//     const result = await updateCustomizationOptions(customizationOptions);
+//     res.status(200).json({
+//       data: {
+//         result: result,
+//         message: "Pizza base quantity updated successfully",
+//       },
+//     });
+//   } catch (error) {
+//     res.status(500).json({ data: error });
+//   }
+// });
 
 
 // router.put("/update/:type/:name", async (req, res) => {
