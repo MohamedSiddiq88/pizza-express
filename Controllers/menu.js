@@ -35,6 +35,13 @@ export function updateCustomizationOptions(customizationOptions) {
 //   }
 // }
 
+export function updateCustomizationOptions(updatedOptions) {
+  return client
+    .db("restaurant")
+    .collection("PizzaCustomizationOptions")
+    .replaceOne({}, updatedOptions);
+}
+
 export function getAllMenu() {
   return client.db("restaurant").collection("menu").find().toArray();
 }

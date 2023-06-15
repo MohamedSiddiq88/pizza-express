@@ -24,11 +24,11 @@ router.get("/customise", async (req, res) => {
   }
 });
 
-router.put("/customise/update/:name", async (req, res) => {
+router.put("/customise/update/:type/:name", async (req, res) => {
   try {
-    const { name } = req.params;
+    const { type, name } = req.params;
     const updatedQuantity = req.body.quantity;
-    if (!name || !updatedQuantity) {
+    if (!type || !name || !updatedQuantity) {
       return res.status(400).send({ data: "Incomplete data provided" });
     }
 
@@ -37,26 +37,64 @@ router.put("/customise/update/:name", async (req, res) => {
       return res.status(400).send("Customization options not found");
     }
 
-    const pizzaBase = customizationOptions.pizzaBase.find(
-      (base) => base.name === name
-    );
-    if (!pizzaBase) {
-      return res.status(400).send("Pizza base not found");
+    const menuItems = customizationOptions[type];
+    if (!menuItems) {
+      return res.status(400).send("Invalid menu type");
     }
 
-    pizzaBase.quantity = updatedQuantity;
+    const menuItem = menuItems.find((item) => item.name === name);
+    if (!menuItem) {
+      return res.status(400).send("Menu item not found");
+    }
+
+    menuItem.quantity = updatedQuantity;
 
     const result = await updateCustomizationOptions(customizationOptions);
     res.status(200).json({
       data: {
         result: result,
-        message: "Pizza base quantity updated successfully",
+        message: "Menu item quantity updated successfully",
       },
     });
   } catch (error) {
-    res.status(500).json({ data: error });
+    res.status(500).json({ data: "Internal server error" });
   }
 });
+
+
+// router.put("/customise/update/:name", async (req, res) => {
+//   try {
+//     const { name } = req.params;
+//     const updatedQuantity = req.body.quantity;
+//     if (!name || !updatedQuantity) {
+//       return res.status(400).send({ data: "Incomplete data provided" });
+//     }
+
+//     const customizationOptions = await getCustomizationOptions();
+//     if (!customizationOptions) {
+//       return res.status(400).send("Customization options not found");
+//     }
+
+//     const pizzaBase = customizationOptions.pizzaBase.find(
+//       (base) => base.name === name
+//     );
+//     if (!pizzaBase) {
+//       return res.status(400).send("Pizza base not found");
+//     }
+
+//     pizzaBase.quantity = updatedQuantity;
+
+//     const result = await updateCustomizationOptions(customizationOptions);
+//     res.status(200).json({
+//       data: {
+//         result: result,
+//         message: "Pizza base quantity updated successfully",
+//       },
+//     });
+//   } catch (error) {
+//     res.status(500).json({ data: error });
+//   }
+// });
 
 
 // router.put("/update/:type/:name", async (req, res) => {
