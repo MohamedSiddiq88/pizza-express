@@ -10,16 +10,22 @@ export async function getCustomizationOptions() {
       
 }
 
-
-export function updateCustomizationOptionByName(name, updatedCustomizationOption) {
+export async function getCustomizationOptionByName(name) {
   return client
     .db("restaurant")
     .collection("PizzaCustomizationOptions")
-    .findOneAndUpdate(
-      { name: name },
-      { $set: updatedCustomizationOption }
-    );
+    .findOne({ name });
 }
+
+// export function updateCustomizationOptionByName(name, updatedCustomizationOption) {
+//   return client
+//     .db("restaurant")
+//     .collection("PizzaCustomizationOptions")
+//     .findOneAndUpdate(
+//       { name: name },
+//       { $set: updatedCustomizationOption }
+//     );
+// }
 
 
 // export function updateMenuByPizzaBaseName(name, updatedQuantity) {
