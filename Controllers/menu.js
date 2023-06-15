@@ -2,11 +2,16 @@ import { ObjectId } from "bson";
 import { client } from "../db.js";
 
 
-export function updateMenu(name, quantity) {
+export function updateMenu(name, updatedMenuItem) {
   return client
     .db("restaurant")
-    .collection("PizzaCustomizationOptions")
-    .findOneAndUpdate({ "pizzaBase.name": name }, { $set: quantity });
+    .collection("menu")
+    .updateOne(
+      { "pizzaBase.name": name }, // Find the menu item with the matching name
+      { $set: { "pizzaBase.$.quantity": updatedMenuItem.quantity } } // Update the quantity of the matching pizza base
+    );
+}
+
 }
 
 
