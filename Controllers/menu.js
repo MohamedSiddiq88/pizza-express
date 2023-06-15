@@ -11,16 +11,16 @@ export async function getCustomizationOptions() {
 }
 
 
-export function updateMenu(menuItem) {
-  const { _id, quantity } = menuItem;
+export function updateCustomizationOptionByName(name, updatedCustomizationOption) {
   return client
     .db("restaurant")
-    .collection("menu")
+    .collection("PizzaCustomizationOptions")
     .findOneAndUpdate(
-      { _id: new ObjectId(_id), "pizzaBase.name": "Thin Crust" },
-      { $set: { "pizzaBase.$.quantity": quantity } }
+      { name: name },
+      { $set: updatedCustomizationOption }
     );
 }
+
 
 // export function updateMenuByPizzaBaseName(name, updatedQuantity) {
 //   return client
