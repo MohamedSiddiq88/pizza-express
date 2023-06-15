@@ -12,7 +12,7 @@ export function updateMenu(name, quantity) {
     );
 }
 
-}
+
 
 
 export async function getCustomizationOptions() {
