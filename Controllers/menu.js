@@ -10,12 +10,24 @@ export async function getCustomizationOptions() {
       
 }
 
-export function updateCustomizationOptions(updatedOptions) {
+
+export function updateMenuByPizzaBaseName(name, updatedQuantity) {
   return client
     .db("restaurant")
-    .collection("PizzaCustomizationOptions")
-    .updateMany({}, { $set: updatedOptions });
+    .collection("menu")
+    .findOneAndUpdate(
+      { "pizzaBase.name": name },
+      { $set: { "pizzaBase.$.quantity": updatedQuantity } }
+    );
 }
+
+
+// export function updateCustomizationOptions(updatedOptions) {
+//   return client
+//     .db("restaurant")
+//     .collection("PizzaCustomizationOptions")
+//     .updateMany({}, { $set: updatedOptions });
+// }
 
 
 
