@@ -10,76 +10,130 @@ export async function getCustomizationOptions() {
       
 }
 
-export async function updateCustomizationOptionByName(name, updatedCustomizationOption) {
-  const options = await client
+export function updateCustomizationOptionByName(
+  name,
+  updatedCustomizationOption
+) {
+  const filter = {};
+  const update = {};
+
+  // Update pizzaBase if present in the updated customization option
+  if (updatedCustomizationOption.pizzaBase) {
+    filter["pizzaBase.name"] = name;
+    update.$set = {
+      "pizzaBase.$": updatedCustomizationOption.pizzaBase
+    };
+  }
+
+  // Update sauce if present in the updated customization option
+  if (updatedCustomizationOption.sauce) {
+    filter["sauce.name"] = name;
+    update.$set = {
+      "sauce.$": updatedCustomizationOption.sauce
+    };
+  }
+
+  // Update cheese if present in the updated customization option
+  if (updatedCustomizationOption.cheese) {
+    filter["cheese.name"] = name;
+    update.$set = {
+      "cheese.$": updatedCustomizationOption.cheese
+    };
+  }
+
+  // Update veggies if present in the updated customization option
+  if (updatedCustomizationOption.veggies) {
+    filter["veggies.name"] = name;
+    update.$set = {
+      "veggies.$": updatedCustomizationOption.veggies
+    };
+  }
+
+  // Update meat if present in the updated customization option
+  if (updatedCustomizationOption.meat) {
+    filter["meat.name"] = name;
+    update.$set = {
+      "meat.$": updatedCustomizationOption.meat
+    };
+  }
+
+  return client
     .db("restaurant")
     .collection("PizzaCustomizationOptions")
-    .find()
-    .toArray();
-
-  for (const option of options) {
-    if (option.pizzaBase) {
-      for (let i = 0; i < option.pizzaBase.length; i++) {
-        if (option.pizzaBase[i].name === name) {
-          option.pizzaBase[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-    if (option.sauce) {
-      for (let i = 0; i < option.sauce.length; i++) {
-        if (option.sauce[i].name === name) {
-          option.sauce[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-    if (option.cheese) {
-      for (let i = 0; i < option.cheese.length; i++) {
-        if (option.cheese[i].name === name) {
-          option.cheese[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-    if (option.veggies) {
-      for (let i = 0; i < option.veggies.length; i++) {
-        if (option.veggies[i].name === name) {
-          option.veggies[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-    if (option.meat) {
-      for (let i = 0; i < option.meat.length; i++) {
-        if (option.meat[i].name === name) {
-          option.meat[i] = updatedCustomizationOption;
-          await client
-            .db("restaurant")
-            .collection("PizzaCustomizationOptions")
-            .updateOne({ name: option.name }, { $set: option });
-          return;
-        }
-      }
-    }
-  }
+    .findOneAndUpdate(filter, update);
 }
+
+
+// export async function updateCustomizationOptionByName(name, updatedCustomizationOption) {
+//   const options = await client
+//     .db("restaurant")
+//     .collection("PizzaCustomizationOptions")
+//     .find()
+//     .toArray();
+
+//   for (const option of options) {
+//     if (option.pizzaBase) {
+//       for (let i = 0; i < option.pizzaBase.length; i++) {
+//         if (option.pizzaBase[i].name === name) {
+//           option.pizzaBase[i] = updatedCustomizationOption;
+//           await client
+//             .db("restaurant")
+//             .collection("PizzaCustomizationOptions")
+//             .updateOne({ name: option.name }, { $set: option });
+//           return;
+//         }
+//       }
+//     }
+//     if (option.sauce) {
+//       for (let i = 0; i < option.sauce.length; i++) {
+//         if (option.sauce[i].name === name) {
+//           option.sauce[i] = updatedCustomizationOption;
+//           await client
+//             .db("restaurant")
+//             .collection("PizzaCustomizationOptions")
+//             .updateOne({ name: option.name }, { $set: option });
+//           return;
+//         }
+//       }
+//     }
+//     if (option.cheese) {
+//       for (let i = 0; i < option.cheese.length; i++) {
+//         if (option.cheese[i].name === name) {
+//           option.cheese[i] = updatedCustomizationOption;
+//           await client
+//             .db("restaurant")
+//             .collection("PizzaCustomizationOptions")
+//             .updateOne({ name: option.name }, { $set: option });
+//           return;
+//         }
+//       }
+//     }
+//     if (option.veggies) {
+//       for (let i = 0; i < option.veggies.length; i++) {
+//         if (option.veggies[i].name === name) {
+//           option.veggies[i] = updatedCustomizationOption;
+//           await client
+//             .db("restaurant")
+//             .collection("PizzaCustomizationOptions")
+//             .updateOne({ name: option.name }, { $set: option });
+//           return;
+//         }
+//       }
+//     }
+//     if (option.meat) {
+//       for (let i = 0; i < option.meat.length; i++) {
+//         if (option.meat[i].name === name) {
+//           option.meat[i] = updatedCustomizationOption;
+//           await client
+//             .db("restaurant")
+//             .collection("PizzaCustomizationOptions")
+//             .updateOne({ name: option.name }, { $set: option });
+//           return;
+//         }
+//       }
+//     }
+//   }
+// }
 
 
 
