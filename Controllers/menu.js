@@ -11,11 +11,53 @@ export async function getCustomizationOptions() {
 }
 
 export async function getCustomizationOptionByName(name) {
-  return client
+  const options = await client
     .db("restaurant")
     .collection("PizzaCustomizationOptions")
-    .findOne({ name });
+    .find()
+    .toArray();
+
+  for (const option of options) {
+    if (option.pizzaBase) {
+      for (const base of option.pizzaBase) {
+        if (base.name === name) {
+          return base;
+        }
+      }
+    }
+    if (option.sauce) {
+      for (const sauce of option.sauce) {
+        if (sauce.name === name) {
+          return sauce;
+        }
+      }
+    }
+    if (option.cheese) {
+      for (const cheese of option.cheese) {
+        if (cheese.name === name) {
+          return cheese;
+        }
+      }
+    }
+    if (option.veggies) {
+      for (const veggie of option.veggies) {
+        if (veggie.name === name) {
+          return veggie;
+        }
+      }
+    }
+    if (option.meat) {
+      for (const meat of option.meat) {
+        if (meat.name === name) {
+          return meat;
+        }
+      }
+    }
+  }
+
+  return null; // Customization option not found
 }
+
 
 // export function updateCustomizationOptionByName(name, updatedCustomizationOption) {
 //   return client
