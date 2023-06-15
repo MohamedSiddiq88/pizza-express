@@ -24,11 +24,12 @@ router.get("/customise", async (req, res) => {
   }
 });
 
-router.put("/customise/update/:type/:name", async (req, res) => {
+router.put("/customise/update/:type", async (req, res) => {
   try {
-    const { type, name } = req.params;
-    const updatedQuantity = req.body.quantity;
-    if (!type || !name || !updatedQuantity) {
+    const { type } = req.params;
+    const { name, quantity } = req.body;
+
+    if (!type || !name || !quantity) {
       return res.status(400).send({ data: "Incomplete data provided" });
     }
 
@@ -47,7 +48,7 @@ router.put("/customise/update/:type/:name", async (req, res) => {
       return res.status(400).send("Menu item not found");
     }
 
-    menuItem.quantity = updatedQuantity;
+    menuItem.quantity = quantity;
 
     const result = await updateCustomizationOptions(customizationOptions);
     res.status(200).json({
@@ -60,6 +61,45 @@ router.put("/customise/update/:type/:name", async (req, res) => {
     res.status(500).json({ data: "Internal server error" });
   }
 });
+
+
+
+// router.put("/customise/update/:type/:name", async (req, res) => {
+//   try {
+//     const { type, name } = req.params;
+//     const updatedQuantity = req.body.quantity;
+//     if (!type || !name || !updatedQuantity) {
+//       return res.status(400).send({ data: "Incomplete data provided" });
+//     }
+
+//     const customizationOptions = await getCustomizationOptions();
+//     if (!customizationOptions) {
+//       return res.status(400).send("Customization options not found");
+//     }
+
+//     const menuItems = customizationOptions[type];
+//     if (!menuItems) {
+//       return res.status(400).send("Invalid menu type");
+//     }
+
+//     const menuItem = menuItems.find((item) => item.name === name);
+//     if (!menuItem) {
+//       return res.status(400).send("Menu item not found");
+//     }
+
+//     menuItem.quantity = updatedQuantity;
+
+//     const result = await updateCustomizationOptions(customizationOptions);
+//     res.status(200).json({
+//       data: {
+//         result: result,
+//         message: "Menu item quantity updated successfully",
+//       },
+//     });
+//   } catch (error) {
+//     res.status(500).json({ data: "Internal server error" });
+//   }
+// });
 
 
 // router.put("/customise/update/:name", async (req, res) => {
