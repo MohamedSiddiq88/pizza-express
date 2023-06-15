@@ -6,8 +6,8 @@ import {
   getMenuById,
   updateMenu,
   getCustomizationOptions,
-  updateCustomizationOptions,
-  updateMenuByPizzaBaseName
+  updateCustomizationOptionByName,
+  
 } from "../Controllers/menu.js";
 
 const router = express.Router();
@@ -33,7 +33,7 @@ router.put("/customise/update", async (req, res) => {
     if (!name || !quantity) {
       return res.status(400).send({ data: "Incomplete data provided" });
     }
-    const result = await updateMenuByPizzaBaseName(name, quantity);
+    const result = await updateCustomizationOptionByName(name, quantity);
     if (!result.value) {
       res.status(404).send("Menu item not found");
       return;
