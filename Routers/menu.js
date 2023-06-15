@@ -26,7 +26,7 @@ router.get("/customise", async (req, res) => {
 
 router.put("/customise/update/:type", async (req, res) => {
   try {
-    const { type } = req.params;
+    const { type } = "sauce";
     const { name, quantity } = req.body;
 
     if (!type || !name || !quantity) {
