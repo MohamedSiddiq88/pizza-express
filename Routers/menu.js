@@ -31,7 +31,7 @@ router.get("/customise/name", async (req, res) => {
     const { name } = req.body;
     const customizationOption = await getCustomizationOptionByName(name);
     if (!customizationOption) {
-      res.status(400).send("Customization option not found");
+      res.status(400).send("Customization option not foundd");
       return;
     }
     res.status(200).json(customizationOption);
