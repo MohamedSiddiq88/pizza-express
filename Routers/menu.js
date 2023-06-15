@@ -24,23 +24,75 @@ router.get("/customise", async (req, res) => {
   }
 });
 
-router.put("/customise/update", async (req, res) => {
+router.put("/update/:type/:name", async (req, res) => {
   try {
-    const updatedOptions = req.body;
-    if (!updatedOptions) {
-      return res.status(400).send({ data: "No updated options provided" });
+    const { type, name } = req.params;
+    const { quantity } = req.body;
+    if (!type || !name || !quantity) {
+      return res.status(400).send({ data: "Incomplete data provided" });
     }
 
-    // Call a function to update the customization options with the provided data
-    const result = await updateCustomizationOptions(updatedOptions);
+    let menu;
+    switch (type) {
+      case "pizzaBase":
+        menu = pizzaBase;
+        break;
+      case "sauce":
+        menu = sauce;
+        break;
+      case "cheese":
+        menu = cheese;
+        break;
+      case "veggies":
+        menu = veggies;
+        break;
+      case "meat":
+        menu = meat;
+        break;
+      default:
+        return res.status(400).send({ data: "Invalid menu type" });
+    }
 
+    const menuItem = menu.find((item) => item.name === name);
+    if (!menuItem) {
+      return res.status(400).send({ data: "Menu item not found" });
+    }
+
+    menuItem.quantity = quantity;
+
+    const customizationOptions = await getCustomizationOptions();
+    if (!customizationOptions) {
+      return res.status(400).send("Customization options not found");
+    }
+
+    const result = await updateCustomizationOptions(customizationOptions);
     res.status(200).json({
-      data: { result: result, message: "Customization options updated successfully" },
+      data: { result: result, message: "Menu item updated successfully" },
     });
   } catch (error) {
     res.status(500).json({ data: "Internal server error" });
   }
 });
+
+
+
+// router.put("/customise/update", async (req, res) => {
+//   try {
+//     const updatedOptions = req.body;
+//     if (!updatedOptions) {
+//       return res.status(400).send({ data: "No updated options provided" });
+//     }
+
+//     // Call a function to update the customization options with the provided data
+//     const result = await updateCustomizationOptions(updatedOptions);
+
+//     res.status(200).json({
+//       data: { result: result, message: "Customization options updated successfully" },
+//     });
+//   } catch (error) {
+//     res.status(500).json({ data: "Internal server error" });
+//   }
+// });
 
 
 

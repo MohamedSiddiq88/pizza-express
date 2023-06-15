@@ -10,22 +10,30 @@ export async function getCustomizationOptions() {
       
 }
 
-export async function updateCustomizationOptions(updatedOptions) {
-  try {
-    const result = await client
-      .db("restaurant")
-      .collection("PizzaCustomizationOptions")
-      .updateOne({}, { $set: updatedOptions });
-
-    if (result.modifiedCount === 1) {
-      return true;
-    } else {
-      throw new Error("Failed to update customization options");
-    }
-  } catch (error) {
-    throw new Error("Failed to update customization options");
-  }
+export function updateCustomizationOptions(customizationOptions) {
+  return client
+    .db("restaurant")
+    .collection("PizzaCustomizationOptions")
+    .findOneAndReplace({}, customizationOptions);
 }
+
+
+// export async function updateCustomizationOptions(updatedOptions) {
+//   try {
+//     const result = await client
+//       .db("restaurant")
+//       .collection("PizzaCustomizationOptions")
+//       .updateOne({}, { $set: updatedOptions });
+
+//     if (result.modifiedCount === 1) {
+//       return true;
+//     } else {
+//       throw new Error("Failed to update customization options");
+//     }
+//   } catch (error) {
+//     throw new Error("Failed to update customization options");
+//   }
+// }
 
 export function getAllMenu() {
   return client.db("restaurant").collection("menu").find().toArray();
