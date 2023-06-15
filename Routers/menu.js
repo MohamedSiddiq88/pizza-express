@@ -54,7 +54,7 @@ router.put("/customise/update/:name", async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ data: "Internal server error" });
+    res.status(500).json({ data: error });
   }
 });
 
