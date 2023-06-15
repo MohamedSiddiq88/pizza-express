@@ -14,8 +14,9 @@ export function updateCustomizationOptions(customizationOptions) {
   return client
     .db("restaurant")
     .collection("PizzaCustomizationOptions")
-    .findOneAndReplace({}, customizationOptions);
+    .findOneAndUpdate({}, { $set: customizationOptions });
 }
+
 
 
 // export async function updateCustomizationOptions(updatedOptions) {
