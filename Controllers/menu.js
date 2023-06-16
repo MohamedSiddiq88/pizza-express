@@ -76,7 +76,7 @@ export async function getCustomizationOptionByName(name) {
     }
   }
 
-  return null; // Customization option not found
+  return null; 
 }
 
 
