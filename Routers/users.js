@@ -35,7 +35,7 @@ router.post("/login",async(req,res)=>{
             user.password
         )
         if(!validPassword){
-            return res.status(400).json({data:"invalid password"})
+            return res.status(400).json({data:"invalid"})
         }
         const token =generateJwtToken(user._id)
         res.status(200).json({data:token,name:user.name})
