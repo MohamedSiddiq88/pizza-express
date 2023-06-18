@@ -54,14 +54,13 @@ router.post("/checkstring", async (req, res) => {
     
   
     try {
-      // Check if the token matches the stored random string
+      //  if the token matches the stored random string
       const isValidToken = await getRandom(req.query.token);
       if (!isValidToken) {
         return res.status(400).json({ data: "invalid token" });
       }
   
-      // Proceed with password reset logic here
-      // ...
+     
   
       res.status(200).json({ data: isValidToken });
     } catch (error) {
@@ -83,8 +82,8 @@ router.post("/checkmail",async(req,res)=>{
     const result =await addRandomString(randomString,req.body.email)
 
 
-    // Create the link with the random string
-    const link = `http://localhost:3000/resetpassword?token=${randomString}`;
+    // create the link with the random string
+    const link = `https://ornate-duckanoo-99a24c.netlify.app/resetpassword?token=${randomString}`;
 
     let transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
@@ -116,7 +115,7 @@ router.post("/reset-password", async (req, res) => {
     try {
       const { email, password, token } = req.body;
   
-      // Verify the token and email
+      // verify the token and email
       const isValidToken = await getRandom(token);
       const user = await getUser(email);
   
@@ -124,14 +123,14 @@ router.post("/reset-password", async (req, res) => {
         return res.status(400).json({ data: "Invalid token or email" });
       }
   
-      // Generate a new salt and hash the new password
+      // generate a new salt and hash the new password
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
   
-      // Update the user's password in the database
+      // update the user's password in the database
       const result=await updatePassword(email,hashedPassword)
   
-      // Delete the used token from the randomstring collection
+      // delete the used token from the randomstring collection
        deleteRandomString(token)
       
   
