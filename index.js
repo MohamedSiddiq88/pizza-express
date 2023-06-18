@@ -24,7 +24,7 @@ app.get("/",(req,res)=>{
     res.send("Welocome to Pizza World1")
 })
 app.use("/menu",menuRouter);
-app.use("/users",usersRouter)
+app.use("/users",usersRouter)   
 app.use("/admin",adminRouter)
 app.use("/orders",ordersRouter)
 app.get("/mail",sendMailRouter)
