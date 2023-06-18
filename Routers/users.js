@@ -63,7 +63,7 @@ router.post("/checkstring", async (req, res) => {
       // Proceed with password reset logic here
       // ...
   
-      res.status(200).json({ data: "valid string" });
+      res.status(200).json({ data: isValidToken });
     } catch (error) {
       res.status(500).json("internal server error");
     }
@@ -84,7 +84,7 @@ router.post("/checkmail",async(req,res)=>{
 
 
     // Create the link with the random string
-    const link = `http://localhost:3000/mailcheck?token=${randomString}`;
+    const link = `http://localhost:3000/resetpassword?token=${randomString}`;
 
     let transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
