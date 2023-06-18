@@ -1,5 +1,5 @@
 import express from "express"
-import { addRandomString, addUsers, generateJwtToken, getUser } from "../Controllers/users.js";
+import { addRandomString, addUsers, generateJwtToken, getRandom, getUser } from "../Controllers/users.js";
 import bcrypt from "bcrypt"
 import crypto from "crypto"
 import nodemailer from "nodemailer";
@@ -50,12 +50,12 @@ router.post("/login",async(req,res)=>{
 })
 
 
-router.get("/reset-password", async (req, res) => {
-    const token = req.query.token; // Get the token from the query parameter
+router.post("/checkstring", async (req, res) => {
+    
   
     try {
       // Check if the token matches the stored random string
-      const isValidToken = await getRandom(token);
+      const isValidToken = await getRandom(req.query.token);
       if (!isValidToken) {
         return res.status(400).json({ data: "invalid token" });
       }
@@ -84,7 +84,7 @@ router.post("/checkmail",async(req,res)=>{
 
 
     // Create the link with the random string
-    const link = `http://localhost:3000/users/reset-password?token=${randomString}`;
+    const link = `http://localhost:3000/mailcheck?token=${randomString}`;
 
     let transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
