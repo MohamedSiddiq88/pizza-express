@@ -1,5 +1,5 @@
 import express from "express"
-import { addRandomString, addUsers, generateJwtToken, getRandom, getUser } from "../Controllers/users.js";
+import { addRandomString, addUsers, deleteRandomString, generateJwtToken, getRandom, getUser, updatePassword } from "../Controllers/users.js";
 import bcrypt from "bcrypt"
 import crypto from "crypto"
 import nodemailer from "nodemailer";
@@ -63,7 +63,7 @@ router.post("/checkstring", async (req, res) => {
       // Proceed with password reset logic here
       // ...
   
-      res.status(200).json({ data: "password reset successful" });
+      res.status(200).json({ data: "valid string" });
     } catch (error) {
       res.status(500).json("internal server error");
     }
@@ -111,6 +111,36 @@ router.post("/checkmail",async(req,res)=>{
   }
 })
 
+
+router.post("/reset-password", async (req, res) => {
+    try {
+      const { email, password, token } = req.body;
+  
+      // Verify the token and email
+      const isValidToken = await getRandom(token);
+      const user = await getUser(email);
+  
+      if (!isValidToken || !user) {
+        return res.status(400).json({ data: "Invalid token or email" });
+      }
+  
+      // Generate a new salt and hash the new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+  
+      // Update the user's password in the database
+      const result=await updatePassword(email,hashedPassword)
+  
+      // Delete the used token from the randomstring collection
+       deleteRandomString(token)
+      
+  
+      res.status(200).json({ data: "Password reset successful" });
+    } catch (error) {
+      res.status(500).json("Internal server error");
+    }
+  });
+  
 
 
 

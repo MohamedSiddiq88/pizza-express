@@ -36,3 +36,16 @@ export function  getRandom(randomString){
     .findOne({randomString: randomString})
 }
 
+export function deleteRandomString(randomString){
+     client
+        .db("restaurant")
+        .collection("randomstring")
+        .deleteOne({ randomString: randomString });
+}
+
+export function updatePassword(email,password){
+    return client
+        .db("restaurant")
+        .collection("users")
+        .updateOne({ email: email }, { $set: { password: password } });
+}
