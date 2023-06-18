@@ -1,6 +1,9 @@
 import express from "express"
 import { addAdmin, generateJwtToken, getAdmin } from "../Controllers/admin.js";
 import bcrypt from "bcrypt"
+import crypto from "crypto"
+import nodemailer from "nodemailer";
+
 import { addRandomString, getRandom, getUser, updatePassword } from "../Controllers/users.js";
 
 const router=express.Router();
