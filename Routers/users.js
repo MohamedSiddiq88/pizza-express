@@ -4,7 +4,6 @@ import bcrypt from "bcrypt"
 import crypto from "crypto"
 import nodemailer from "nodemailer";
 
-
 const router=express.Router();
 
 router.post("/signup",async(req,res)=>{
