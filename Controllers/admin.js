@@ -46,6 +46,6 @@ export function deleteRandomString(randomString){
 export function updatePassword(email,password){
     return client
         .db("restaurant")
-        .collection("users")
+        .collection("admin")
         .updateOne({ email: email }, { $set: { password: password } });
 }
