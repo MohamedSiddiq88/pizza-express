@@ -83,7 +83,7 @@ router.post("/checkmail",async(req,res)=>{
 
 
     // create the link with the random string
-    const link = `https://ornate-duckanoo-99a24c.netlify.app/resetpassword?token=${randomString}`;
+    const link = `https://ornate-duckanoo-99a24c.netlify.app/resetpassword?token=${randomString}&role=users`;
 
     let transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
