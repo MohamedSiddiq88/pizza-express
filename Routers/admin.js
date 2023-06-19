@@ -4,7 +4,7 @@ import bcrypt from "bcrypt"
 import crypto from "crypto"
 import nodemailer from "nodemailer";
 
-import { addRandomString, deleteRandomString, getRandom, getUser, updatePassword } from "../Controllers/users.js";
+import { addRandomString, deleteRandomString, getRandom,  updatePassword } from "../Controllers/admin.js";
 
 const router=express.Router();
 
